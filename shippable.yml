@@ -42,5 +42,5 @@ integrations:
   # adding docker hub integration so that credentials are available to CI Job
   # http://docs.shippable.com/platform/integration/dockerRegistryLogin/
   hub:
-    - integrationName: dr-dockerhub
+    - integrationName: flask_cicd
       type: dockerRegistryLogin
