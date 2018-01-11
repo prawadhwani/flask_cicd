@@ -10,7 +10,7 @@ jobs:
          docker login -u $DOCKER_USER -p $DOCKER_PASS
 
       # build the application image
-      - run: docker build -t arcticf0x/flask_cicd .
+      - run: docker build -t $DOCKER_USER/flask_cicd .
 
       # deploy the image
-      - run: docker push arcticf0x/flask_cicd
+      - run: docker push $DOCKER_USER/flask_cicd
