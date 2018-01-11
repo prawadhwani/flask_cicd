@@ -6,7 +6,7 @@ app = intialize_app()
 
 @app.route('/', methods=['GET', 'POST', 'PUT', 'DELETE'])
 def hello():
-    return "Hello harold!"
+    return "Hello world!"
 
 if __name__ == "__main__":
     # Only for debugging while developing
