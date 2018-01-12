@@ -18,7 +18,7 @@ spec:
     spec:
       containers:
       - name: flask-cicd
-        image: arcticf0x/flask_cicd:$tag
+        image: arcticf0x/flask_cicd
         imagePullPolicy: Always
         env:
         - name: FOR_GODS_SAKE_PLEASE_REDEPLOY
