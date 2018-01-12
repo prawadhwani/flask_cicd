@@ -24,4 +24,5 @@ jobs:
       - deploy:
           name: Rolling update
           command: |
+            sed -i "s/TAG/$(date +%s)/" deployment/flask_cicd.yaml
             ~/.kube/kubectl apply -f deployment/flask_cicd.yaml
