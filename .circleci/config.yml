@@ -17,7 +17,7 @@ jobs:
       # ensure we have kubectl
       - run: |
           if [ ! -e ~/.kube/kubectl ]; then
-              curl -LO https://storage.googleapis.com/kubernetes-release/release/$(curl -s https://storage.googleapis.com/kubernetes-release/release/stable.txt)/bin/linux/amd64/kubectl -O ~/.kube/kubectl
+              curl -LO https://storage.googleapis.com/kubernetes-release/release/v1.9.1/bin/linux/amd64/kubectl -o ~/.kube/kubectl
               chmod +x ~/.kube/kubectl
           fi
       - deploy:
