@@ -13,11 +13,11 @@ jobs:
       # deploy the image
       - run: docker push $DOCKER_USER/flask_cicd
       # for now, lets set the kubeconfig ourselves
-      - run: mkdir -p /home/circleci/.kube && mv .circleci/kubeconfig /home/circleci/.kube/config
+      - run: mkdir -p ~.kube && mv .circleci/kubeconfig ~.kube/config
       # ensure we have kubectl
       - run: |
           if [ ! -e ~/.kube/kubectl ]; then
-              curl -LO https://storage.googleapis.com/kubernetes-release/release/v1.9.1/bin/linux/amd64/kubectl -o ~/.kube/kubectl
+              curl -LO https://storage.googleapis.com/kubernetes-release/release/v1.9.1/bin/linux/amd64/kubectl -O ~/.kube/kubectl
               chmod +x ~/.kube/kubectl
           fi
       - deploy:
