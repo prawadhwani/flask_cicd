@@ -1,0 +1,32 @@
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  labels:
+    app: flask-cicd
+    tier: frontend
+  name: flask-cicd
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: flask-cicd
+  strategy:
+    rollingUpdate:
+      maxSurge: 1
+      maxUnavailable: 1
+    type: RollingUpdate
+  template:
+    metadata:
+      creationTimestamp: null
+      labels:
+        app: flask-cicd
+        tier: frontend
+    spec:
+      containers:
+      - image: arcticf0x/flask_cicd
+        imagePullPolicy: Always
+        name: flask-cicd
+        resources:
+          requests:
+            cpu: 100m
+            memory: 100Mi
