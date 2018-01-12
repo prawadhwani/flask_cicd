@@ -13,7 +13,7 @@ jobs:
       # deploy the image
       - run: docker push $DOCKER_USER/flask_cicd
       # for now, lets set the kubeconfig ourselves
-      - run: mkdir -p .kube/config && mv /.circleci/kubeconfig .kube/config
+      - run: mkdir -p .kube/config && mv .circleci/kubeconfig .kube/config
       # ensure we have kubectl
       - run: ./deployment/ensure_kubectl.sh https://45.76.19.58:6443
       - deploy:
