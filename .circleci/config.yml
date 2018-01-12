@@ -1,8 +1,6 @@
 version: 2
 jobs:
   build:
-    environment:
-      - UUID: $(cat /proc/sys/kernel/random/uuid)
     machine: true
     steps:
       - checkout
@@ -11,7 +9,7 @@ jobs:
       - run: |
          docker login -u $DOCKER_USER -p $DOCKER_PASS
       # build the application image
-      - run: docker build -t $DOCKER_USER/flask_cicd:$UUID .
+      - run: docker build -t $DOCKER_USER/flask_cicd .
       # deploy the image
       - run: docker push $DOCKER_USER/flask_cicd
       # for now, lets set the kubeconfig ourselves
@@ -26,5 +24,5 @@ jobs:
       - deploy:
           name: Rolling update
           command: |
-            sed -i "s/TAG/$UUID/" deployment/flask_cicd.yaml
+            sed -ie "s/THIS_STRING_IS_REPLACED_DURING_BUILD/$(date)/g" deployment/flask_cicd.yaml
             ~/.kube/kubectl apply -f deployment/flask_cicd.yaml
