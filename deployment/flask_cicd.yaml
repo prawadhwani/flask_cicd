@@ -18,5 +18,5 @@ spec:
     spec:
       containers:
       - name: flask-cicd
-        image: arcticf0x/flask_cicd
+        image: arcticf0x/flask_cicd:TAG
         imagePullPolicy: Always
