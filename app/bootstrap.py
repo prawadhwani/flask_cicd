@@ -6,7 +6,7 @@ app = Flask(__name__)
 
 @app.route('/', methods=['GET', 'POST', 'PUT', 'DELETE'])
 def hello():
-    return "this has to work"
+    return "this is another test"
 
 if __name__ == "__main__":
     # Only for debugging while developing
