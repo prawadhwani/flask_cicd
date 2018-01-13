@@ -13,11 +13,11 @@ jobs:
       - image: azuresdk/azure-cli-python:2.0.23
     steps:
       - run: |
-        az login -u $AZURE_USER -p $AZURE_PASSWORD
-        az aks get-credentials -g stagingK8s -n stagingK8s
-        az aks install-cli
-        sed -ie "s/updated_timestamp/$(date)/g" deployment/flask_cicd.yaml
-        kubectl apply -f deployment/flask_cicd.yaml
+         az login -u $AZURE_USER -p $AZURE_PASSWORD
+         az aks get-credentials -g stagingK8s -n stagingK8s
+         az aks install-cli
+         sed -ie "s/updated_timestamp/$(date)/g" deployment/flask_cicd.yaml
+         kubectl apply -f deployment/flask_cicd.yaml
 workflows:
   version: 2
   rolling_update:
