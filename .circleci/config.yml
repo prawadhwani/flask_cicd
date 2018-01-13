@@ -1,28 +1,28 @@
 version: 2
 jobs:
-  build:
+  docker_build:
     machine: true
     steps:
       - checkout
-      # start proprietary DB using private Docker image
-      # with credentials stored in the UI
       - run: |
          docker login -u $DOCKER_USER -p $DOCKER_PASS
-      # build the application image
-      - run: docker build -t $DOCKER_USER/flask_cicd .
-      # deploy the image
-      - run: docker push $DOCKER_USER/flask_cicd
-      # for now, lets set the kubeconfig ourselves
-      - run: mkdir -p ~/.kube && mv .circleci/kubeconfig ~/.kube/config
-      # ensure we have kubectl
+         docker build -t $DOCKER_USER/flask_cicd .
+         docker push $DOCKER_USER/flask_cicd
+  k8_deploy:
+    docker:
+      - image: azuresdk/azure-cli-python:2.0.23
+    steps:
       - run: |
-          if [ ! -e ~/.kube/kubectl ]; then
-              cd ~/.kube
-              wget https://storage.googleapis.com/kubernetes-release/release/v1.9.1/bin/linux/amd64/kubectl
-              chmod +x ~/.kube/kubectl
-          fi
-      - deploy:
-          name: Rolling update
-          command: |
-            sed -ie "s/THIS_STRING_IS_REPLACED_DURING_BUILD/$(date)/g" deployment/flask_cicd.yaml
-            ~/.kube/kubectl apply -f deployment/flask_cicd.yaml
+        az login -u $AZURE_USER -p $AZURE_PASSWORD
+        az aks get-credentials -g stagingK8s -n stagingK8s
+        az aks install-cli
+        sed -ie "s/updated_timestamp/$(date)/g" deployment/flask_cicd.yaml
+        kubectl apply -f deployment/flask_cicd.yaml
+workflows:
+  version: 2
+  rolling_update:
+    jobs:
+      - docker_build
+      - k8_deploy:
+          requires:
+            - docker_build
