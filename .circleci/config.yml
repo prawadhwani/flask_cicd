@@ -5,19 +5,5 @@ jobs:
     steps:
       - checkout
       - run: |
-         docker version
          docker login -u $DOCKER_USER -p $DOCKER_PASS
-         docker build -t $DOCKER_USER/flask_cicd .
-         docker push $DOCKER_USER/flask_cicd
-         mkdir -p ~/.kube && mv .circleci/stg-kubeconfig ~/.kube/config
-      - run: |
-         if [ ! -e ~/.kube/kubectl ]; then
-            cd ~/.kube
-            wget https://storage.googleapis.com/kubernetes-release/release/v1.9.1/bin/linux/amd64/kubectl
-            chmod +x ~/.kube/kubectl
-         fi
-      - deploy:
-          name: rolling update
-          command: |
-            sed -ie "s/updated_timestamp/$(date)/g" deployment/flask_cicd.yaml
-            ~/.kube/kubectl apply -f deployment/flask_cicd.yaml
+         docker build -t m0de/moddio_gs .
