@@ -9,7 +9,9 @@ jobs:
          docker build -t $DOCKER_USER/flask_cicd .
          docker push $DOCKER_USER/flask_cicd
   k8_deploy:
+    machine: true
     steps:
+      - checkout
       - run: |
          mkdir -p ~/.kube && mv .circleci/stg-kubeconfig ~/.kube/config
          if [ ! -e ~/.kube/kubectl ]; then
