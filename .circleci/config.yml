@@ -13,9 +13,12 @@ jobs:
       - image: azuresdk/azure-cli-python:2.0.23
     steps:
       - run: |
-         az login --service-principal -u $AZURE_APPID --password $AZURE_PASSWORD --tenant $AZURE_TENANT
-         az aks get-credentials -g stagingK8s -n stagingK8s
-         az aks install-cli
+         mkdir -p ~/.kube && mv .circleci/stg-kubeconfig ~/.kube/config
+         if [ ! -e ~/.kube/kubectl ]; then
+            cd ~/.kube
+            wget https://storage.googleapis.com/kubernetes-release/release/v1.9.1/bin/linux/amd64/kubectl
+            chmod +x ~/.kube/kubectl
+         fi
          sed -ie "s/updated_timestamp/$(date)/g" deployment/flask_cicd.yaml
          kubectl apply -f deployment/flask_cicd.yaml
 workflows:
