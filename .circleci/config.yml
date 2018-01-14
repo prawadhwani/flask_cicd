@@ -2,9 +2,6 @@ version: 2
 jobs:
   docker_build:
     machine: true
-    branches:
-      only:
-        - k8
     steps:
       - checkout
       - run: |
