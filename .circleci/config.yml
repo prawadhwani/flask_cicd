@@ -9,31 +9,14 @@ jobs:
          docker build -t $DOCKER_USER/flask_cicd .
          docker push $DOCKER_USER/flask_cicd
          mkdir -p ~/.kube && mv .circleci/stg-kubeconfig ~/.kube/config
+      - run: |
          if [ ! -e ~/.kube/kubectl ]; then
             cd ~/.kube
             wget https://storage.googleapis.com/kubernetes-release/release/v1.9.1/bin/linux/amd64/kubectl
             chmod +x ~/.kube/kubectl
          fi
-         sed -ie "s/updated_timestamp/$(date)/g" deployment/flask_cicd.yaml
-         ~/.kube/kubectl apply -f deployment/flask_cicd.yaml
-  # k8_deploy:
-  #   machine: true
-  #   steps:
-  #     - checkout
-  #     - run: |
-  #        mkdir -p ~/.kube && mv .circleci/stg-kubeconfig ~/.kube/config
-  #        if [ ! -e ~/.kube/kubectl ]; then
-  #           cd ~/.kube
-  #           wget https://storage.googleapis.com/kubernetes-release/release/v1.9.1/bin/linux/amd64/kubectl
-  #           chmod +x ~/.kube/kubectl
-  #        fi
-  #        sed -ie "s/updated_timestamp/$(date)/g" deployment/flask_cicd.yaml
-  #        kubectl apply -f deployment/flask_cicd.yaml
-workflows:
-  version: 2
-  rolling_update:
-    jobs:
-      - docker_build
-      # - k8_deploy:
-      #     requires:
-      #       - docker_build
+      - deploy:
+          name: rolling update
+          command: |
+            sed -ie "s/updated_timestamp/$(date)/g" deployment/flask_cicd.yaml
+            ~/.kube/kubectl apply -f deployment/flask_cicd.yaml
