@@ -9,8 +9,6 @@ jobs:
          docker build -t $DOCKER_USER/flask_cicd .
          docker push $DOCKER_USER/flask_cicd
   k8_deploy:
-    docker:
-      - image: azuresdk/azure-cli-python:2.0.23
     steps:
       - run: |
          mkdir -p ~/.kube && mv .circleci/stg-kubeconfig ~/.kube/config
