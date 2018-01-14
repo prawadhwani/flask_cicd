@@ -2,10 +2,10 @@ version: 2
 jobs:
   docker_build:
     machine: true
+    branches:
+      only:
+        - k8
     steps:
-      branches:
-        only:
-          - k8
       - checkout
       - run: |
          docker login -u $DOCKER_USER -p $DOCKER_PASS
