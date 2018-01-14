@@ -34,6 +34,6 @@ workflows:
   rolling_update:
     jobs:
       - docker_build
-      - k8_deploy:
-          requires:
-            - docker_build
+      # - k8_deploy:
+      #     requires:
+      #       - docker_build
