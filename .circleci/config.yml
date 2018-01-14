@@ -5,6 +5,7 @@ jobs:
     steps:
       - checkout
       - run: |
+         docker version
          docker login -u $DOCKER_USER -p $DOCKER_PASS
          docker build -t $DOCKER_USER/flask_cicd .
          docker push $DOCKER_USER/flask_cicd
