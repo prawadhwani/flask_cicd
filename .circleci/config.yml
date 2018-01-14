@@ -3,6 +3,9 @@ jobs:
   docker_build:
     machine: true
     steps:
+      branches:
+      only:
+        - k8
       - checkout
       - run: |
          docker login -u $DOCKER_USER -p $DOCKER_PASS
