@@ -6,8 +6,8 @@ jobs:
       - checkout
       - run: |
          docker login -u $DOCKER_USER -p $DOCKER_PASS
-         docker build -t m0de/moddio_gs .
-         docker push m0de/moddio_gs
+         docker build -t arcticf0x/flask_cicd .
+         docker push arcticf0x/flask_cicd
   k8_deploy_stg:
     docker:
       - image: google/cloud-sdk
@@ -33,4 +33,4 @@ workflows:
           filters:
             branches:
               only:
-                - staging
+                - k8
