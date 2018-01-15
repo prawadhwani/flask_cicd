@@ -13,8 +13,8 @@ jobs:
       - image: google/cloud-sdk
     steps:
       - run:
-       name: Dump Google Cloud Credentials to file
-       command: echo ${GOOGLE_AUTH} > ${HOME}/gcp-key.json
+        name: Dump Google Cloud Credentials to file
+        command: echo ${GOOGLE_AUTH} > ${HOME}/gcp-key.json
       - run: |
           gcloud auth activate-service-account --key-file ${HOME}/gcp-key.json
           gcloud --quiet config set project ${GOOGLE_PROJECT_ID}
