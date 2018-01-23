@@ -8,28 +8,32 @@ jobs:
          docker login -u $DOCKER_USER -p $DOCKER_PASS
          docker build -t arcticf0x/flask_cicd .
          docker push arcticf0x/flask_cicd
-  k8_deploy_stg:
-    docker:
-      - image: google/cloud-sdk
-    steps:
-      - checkout
-      - run: echo ${GOOGLE_AUTH} > ${HOME}/gcp-key.json
-      - run: |
-          gcloud auth activate-service-account --key-file ${HOME}/gcp-key.json
-          gcloud --quiet config set project ${GOOGLE_PROJECT_ID}
-          gcloud --quiet config set compute/zone ${GOOGLE_COMPUTE_ZONE}
-          gcloud --quiet container clusters get-credentials ${GOOGLE_CLUSTER_NAME}
-          sed -ie "s/updated_timestamp/$(date)/g" deployment/flask_cicd.yaml
-          kubectl apply -f deployment/flask_cicd.yaml
+         ssh rancher@45.76.232.173
+         docker login -u $DOCKER_USER -p $DOCKER_PASS
+         docker rm -f $(docker ps -qa)
+         docker run --name gs -d  -e ENV='production' -e TIER=3 --restart=unless-stopped -p 2000-2030:2000-2030 m0de/moddio_gs
+  # k8_deploy_stg:
+  #   docker:
+  #     - image: google/cloud-sdk
+  #   steps:
+  #     - checkout
+  #     - run: echo ${GOOGLE_AUTH} > ${HOME}/gcp-key.json
+  #     - run: |
+  #         gcloud auth activate-service-account --key-file ${HOME}/gcp-key.json
+  #         gcloud --quiet config set project ${GOOGLE_PROJECT_ID}
+  #         gcloud --quiet config set compute/zone ${GOOGLE_COMPUTE_ZONE}
+  #         gcloud --quiet container clusters get-credentials ${GOOGLE_CLUSTER_NAME}
+  #         sed -ie "s/updated_timestamp/$(date)/g" deployment/flask_cicd.yaml
+  #         kubectl apply -f deployment/flask_cicd.yaml
 workflows:
   version: 2
   rolling_update:
     jobs:
       - docker_build
-      - k8_deploy_stg:
-          requires:
-            - docker_build
-          filters:
-            branches:
-              only:
-                - k8
+      # - k8_deploy_stg:
+      #     requires:
+      #       - docker_build
+      #     filters:
+      #       branches:
+      #         only:
+      #           - k8
