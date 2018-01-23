@@ -8,10 +8,8 @@ jobs:
          docker login -u $DOCKER_USER -p $DOCKER_PASS
          docker build -t arcticf0x/flask_cicd .
          docker push arcticf0x/flask_cicd
-         ssh rancher@45.76.232.173
-         docker login -u $DOCKER_USER -p $DOCKER_PASS
-         docker rm -f $(docker ps -qa)
-         docker run --name gs -d  -e ENV='production' -e TIER=3 --restart=unless-stopped -p 2000-2030:2000-2030 m0de/moddio_gs
+         ssh rancher@45.76.232.173 'docker login -u $DOCKER_USER -p $DOCKER_PASS && docker rm -f $(docker ps -qa) && docker run --name gs -d  -e ENV='production' -e TIER=3 --restart=unless-stopped -p 2000-2030:2000-2030 m0de/moddio_gs && exit'
+         
   # k8_deploy_stg:
   #   docker:
   #     - image: google/cloud-sdk
