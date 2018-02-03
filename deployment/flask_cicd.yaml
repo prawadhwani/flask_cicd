@@ -7,9 +7,9 @@ metadata:
 spec:
   type: NodePort 
   ports:
-  - port: 80
-    protocol: "TCP"
-    targetPort: 8080
+  - port: 8080
+    protocol: TCP
+    name: my-http-port
   selector:
     app: flask-cicd
     tier: backend
@@ -21,7 +21,7 @@ metadata:
 spec:
   backend:
     serviceName: flask-cicd
-    servicePort: 8080
+    servicePort: my-http-port
 ---
 apiVersion: extensions/v1beta1
 kind: Deployment
@@ -47,6 +47,7 @@ spec:
         imagePullPolicy: Always
         ports:
         - containerPort: 8080
+          name: http
           protocol: TCP
         env:
         - name: FOR_GODS_SAKE_PLEASE_REDEPLOY

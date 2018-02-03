@@ -7,6 +7,8 @@ COPY requirements.txt /tmp/
 RUN pip install -U pip && \
     pip install -r /tmp/requirements.txt
 
+ENV LISTEN_PORT 8080
+
 COPY ./app /app
 
 EXPOSE 8080
