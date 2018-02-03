@@ -5,14 +5,23 @@ metadata:
   labels:
     app: flask-cicd
 spec:
-  type: LoadBalancer 
+  type: NodePort 
   ports:
   - port: 80
     protocol: "TCP"
-    targetPort: 80
+    targetPort: 8080
   selector:
     app: flask-cicd
     tier: backend
+---
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  name: test-ingress
+spec:
+  backend:
+    serviceName: flask-cicd
+    servicePort: 8080
 ---
 apiVersion: extensions/v1beta1
 kind: Deployment
@@ -36,6 +45,9 @@ spec:
       - name: flask-cicd
         image: arcticf0x/flask_cicd
         imagePullPolicy: Always
+        ports:
+        - containerPort: 8080
+          protocol: TCP
         env:
         - name: FOR_GODS_SAKE_PLEASE_REDEPLOY
           value: 'THIS_STRING_IS_REPLACED_DURING_BUILD'
