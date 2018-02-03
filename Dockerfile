@@ -9,4 +9,4 @@ RUN pip install -U pip && \
 
 COPY ./app /app
 
-EXPOSE 80
+EXPOSE 8080
