@@ -38,3 +38,4 @@ EOF
 
 # Install RancherOS to disk, then reboot
 sudo ros install --no-reboot -f -t generic -c cloud-config.yml -d /dev/vda
+sudo reboot
