@@ -7,7 +7,7 @@ metadata:
 spec:
   type: NodePort 
   ports:
-  - port: 8080
+  - port: 8080 #this shouldn't matter
     protocol: TCP
     name: my-http-port
   selector:
@@ -47,8 +47,7 @@ spec:
         imagePullPolicy: Always
         ports:
         - containerPort: 8080
-          name: http
-          protocol: TCP
+          name: cont-port
         env:
         - name: FOR_GODS_SAKE_PLEASE_REDEPLOY
           value: 'THIS_STRING_IS_REPLACED_DURING_BUILD'
