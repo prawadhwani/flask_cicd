@@ -40,11 +40,7 @@ workflows:
   version: 2
   rolling_update:
     jobs:
-      - docker_build:
-        filters:
-          branches:
-            only:
-              - master
+      - docker_build
       - k8_deploy_stg:
           requires:
             - docker_build
