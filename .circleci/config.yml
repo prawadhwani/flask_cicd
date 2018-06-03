@@ -11,8 +11,6 @@ jobs:
     branches:
       ignore:
         - staging
-        - /feature-.*/
-
   k8_deploy_stg:
     machine: true
     steps:
