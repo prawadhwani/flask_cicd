@@ -8,6 +8,10 @@ jobs:
          docker login -u $DOCKER_USER -p $DOCKER_PASS
          docker build -t arcticf0x/flask_cicd .
          docker push arcticf0x/flask_cicd
+    branches:
+      ignore:
+        - staging
+        - /feature-.*/
 
   k8_deploy_stg:
     machine: true
