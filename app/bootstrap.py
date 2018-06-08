@@ -6,7 +6,7 @@ app = Flask(__name__)
 
 @app.route('/', methods=['GET', 'POST', 'PUT', 'DELETE'])
 def hello():
-    return " a new test using ingress for the load balancer on oysysy. "
+    return " a new test using ingress for the load balancer on master. "
 
 if __name__ == "__main__":
     # Only for debugging while developing
