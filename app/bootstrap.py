@@ -1,4 +1,4 @@
-from flask import Flask
+dfrom flask import Flask
 import requests
 import logging
 
@@ -6,7 +6,7 @@ app = Flask(__name__)
 
 @app.route('/', methods=['GET', 'POST', 'PUT', 'DELETE'])
 def hello():
-    return " a new test using ingress for the load balancer on staging.. "
+    return " a new test using ingress for the load balancer on staging.fds. "
 
 if __name__ == "__main__":
     # Only for debugging while developing
