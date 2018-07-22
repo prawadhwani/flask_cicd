@@ -8,19 +8,15 @@ jobs:
          docker login -u $DOCKER_USER -p $DOCKER_PASS
          docker build -t arcticf0x/flask_cicd .
          docker push arcticf0x/flask_cicd
-  k8_deploy_stg:
+  swarm_deploy:
+    branches:
+      ignore:
+        - staging
+        - /feature-.*/
     machine: true
     steps:
-      - checkout
       - run: |
-          curl -LO https://storage.googleapis.com/kubernetes-release/release/$(curl -s https://storage.googleapis.com/kubernetes-release/release/stable.txt)/bin/linux/amd64/kubectl
-          chmod +x ./kubectl
-          sudo mv ./kubectl /usr/local/bin/kubectl
-      - run: |
-          scp -r rancher@$VULTR_STG_NODE1:/home/rancher/.kube/config ${HOME}/config
-      - run: |
-          sed -ie "s/updated_timestamp/$(date)/g" deployment/flask_cicd.yaml
-          kubectl --kubeconfig=${HOME}/config apply -f deployment/flask_cicd.yaml
+          ssh root@swarm-manager-west-0.iogamemaker.com 'docker service update --image arcticf0x/flask_cicd be_cicd'
          
   # k8_deploy_stg:
   #   docker:
@@ -40,7 +36,7 @@ workflows:
   rolling_update:
     jobs:
       - docker_build
-      - k8_deploy_stg:
+      - swarm_deploy:
           requires:
             - docker_build
           filters:
