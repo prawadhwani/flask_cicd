@@ -9,9 +9,6 @@ jobs:
          docker build -t arcticf0x/flask_cicd .
          docker push arcticf0x/flask_cicd
   swarm_deploy:
-    branches:
-      only:
-        - master
     machine: true
     steps:
       - run: |
