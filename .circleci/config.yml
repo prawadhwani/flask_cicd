@@ -10,9 +10,8 @@ jobs:
          docker push arcticf0x/flask_cicd
   swarm_deploy:
     branches:
-      ignore:
-        - staging
-        - /feature-.*/
+      only:
+        - master
     machine: true
     steps:
       - run: |
